@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revdate: 2021-12-05T17:38:13+0900
-:revnumber: v0.0.0
-:revremark: LICENSEの追加
+:revnumber: v0.1.0
+:revdate: 2021-12-05T17:39:16+0900
+:revremark: 前文の追加
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -11,6 +11,34 @@
 :copyright: copyright (c) 2021 {author}
 :creation_date: 2021-12-04T12:39:38+0900
 :tags: introduction, lsp, lsp installer, neovim, neovim plugin, lsp plugin
+:nvim-lsp-installer_url: https://github.com/williamboman/nvim-lsp-installer
+:nvim-lsp-installer_link: link:{nvim-lsp-installer_url}[nvim-lsp-installer^]
+
+:commit_id: 8fab72f68391a2719b5ee7b399789d33e0a2d416
+.Version
+link:{nvim-lsp-installer_url}/commit/{commit_id}[{commit_id}^]
+
+.{nvim-lsp-installer_link}とは
+Language Server Protocol(LSP)のserverをinstall,uninstallするNeovim用のpluginです。
+
+[NOTE]
+====
+明記しない場合、serverとはLanguage Server Protocolのserverを指し示します。
+====
+
+.特徴
+* 簡単にserverをinstallできる
+  `LspInstall <server_name>` or `LspInstallInfo` で `i` keyを押す
+* serverのversionを選択できる
+  e.g. `LspInstall rust_analyzer@nightly`
+* link:https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md[
+  LSP server^]を追加できる
+* serverの起動時間を早める最適化ができる
+* Windowsのfull support
+
+link:{nvim-lsp-installer_url}#available-lsps[
+対応しているserverを知りたい人は、公式のREADMEを見てください。^]
+
 
 '''
 
