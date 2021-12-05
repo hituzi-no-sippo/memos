@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v0.2.0
-:revdate: 2021-12-05T17:41:47+0900
-:revremark: commandの説明の追加
+:revnumber: v0.3.0
+:revdate: 2021-12-05T17:56:06+0900
+:revremark: LSP serverのsetup方法の追加
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -74,6 +74,90 @@ LspInstallLog::
   tabを生成し、そこに開きます。
 LspPrintInstalled::
   installした全てのserverを表示します。
+
+== Setup
+
+.installしたserver全てを対象にしたsetup
+[source, lua]
+----
+local lsp_installer = require("nvim-lsp-installer")
+
+-- installしているserverの起動準備をします。
+-- `server` に格納しているのはServer classで、
+-- server nameやsetup functionを含んでいます。
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    -- `sumneko_lua` をinstallしているなら `hello world` を表示します。
+    if server.name == 'sumneko_lua' then
+      print('hello world')
+    end
+
+    -- serverに対応しているfiletypeのbufferを開いたら、
+    -- 実行するfunctionを設定します。
+    -- sumneko_luaはluaのLSP serverなので、
+    -- luaのbufferを開いたら、実行するfunctionです。
+    opts.on_attach = function(client,buffer_number)
+      print(vim.inspect(client))
+      print(buffer_number)
+    end
+
+    -- LSPのsetupをします。
+    -- setupをしないとserverは動作しません。
+    server:setup(opts)
+end)
+----
+
+[NOTE]
+====
+`on_server_ready` をしなくても、serverを動かせます。
+
+.これでもserverは動きます。
+[source, lua]
+----
+local lsp_installer = require("nvim-lsp-installer")
+
+-- installしているserverのdictを取得します。
+local servers = lsp_installer.get_installed_servers()
+-- serversの値はServer Classなので `setup` を実行できます。
+servers[1]:setup({})
+----
+
+link:https://github.com/williamboman/nvim-lsp-installer/blob/8fab72f68391a2719b5ee7b399789d33e0a2d416/lua/nvim-lsp-installer.lua#L215-L223[
+`on_server_ready` のcode^]を読みましたが、
+何をもって準備完了としているのか分かりませんでした。
+====
+
+.特定のserverを対象にしたsetup
+[source, lua]
+----
+local lsp_installer_servers = require'nvim-lsp-installer.servers'
+
+local name = 'sumneko_lua'
+-- server_available
+-- nvim-lsp-installerが対応しているserverかをbooleanで格納しています。
+-- requested_server
+-- serverが対応している場合、そのserverのLSPのdefault configが含まれている
+-- Server class(`help nvim-lsp-installer.server`)を格納しています。
+local server_available, requested_server = lsp_installer_servers.get_server(name)
+
+-- nvim-lsp-installerに対応していないserverだったら、
+-- error messageを表示して終了します。
+if not server_available then
+  error(string.format("nvim-lsp-installer doesn't support %s server.", name))
+  return
+end
+
+requested_server:on_ready(function ()
+  local opts = {}
+  -- LSPのsetupをします。
+  requested_server:setup(opts)
+end)
+if not requested_server:is_installed() then
+  -- serverがinstallされていない場合、installします。
+  requested_server:install()
+end
+----
 
 
 '''
