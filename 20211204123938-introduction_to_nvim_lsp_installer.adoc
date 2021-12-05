@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v0.4.0
-:revdate: 2021-12-05T17:57:00+0900
-:revremark: `LspInstallInfo` のiconsとkeymap config方法の追加をする
+:revnumber: v0.5.0
+:revdate: 2021-12-05T17:59:40+0900
+:revremark: Install configの方法を追加する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -192,6 +192,33 @@ lsp_installer.settings({
   },
 })
 ----
+
+== Install Config
+
+.installのconfig(値はdefaultの値)
+[source, lua]
+----
+local lsp_installer = require("nvim-lsp-installer")
+local path = require("nvim-lsp-installer.path")
+
+lsp_installer.settings({
+  -- install先のroot directory
+  install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" },
+  pip = {
+      -- `pip install` に渡す引数
+      -- 必要ない引数を渡すことは推奨されていません。
+      -- 動作に影響を与える可能性が高いからです。
+      -- e.g. `{ "--proxy", "https://proxyserver" }`
+      install_args = {},
+  },
+  -- log level
+  -- installに問題がありdebugする際、`vim.log.levels.DEBUG` にすると便利です。
+  log_level = vim.log.levels.INFO,
+  -- 同時にinstallするできるserverの最大数
+  max_concurrent_installers = 4,
+})
+----
+
 
 
 '''
