@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v0.6.0
-:revdate: 2021-12-05T18:01:40+0900
-:revremark: referencesを追加する
+:revnumber: v1.0.0
+:revdate: 2021-12-05T18:05:02+0900
+:revremark: 初公開日時を追加する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -10,6 +10,7 @@
 // The `copyright` attribute is an attribute built into Asciidoctor.
 :copyright: copyright (c) 2021 {author}
 :creation_date: 2021-12-04T12:39:38+0900
+:first_publication_date: 2021-12-05T18:05:02+0900
 :tags: introduction, lsp, lsp installer, neovim, neovim plugin, lsp plugin
 :nvim-lsp-installer_url: https://github.com/williamboman/nvim-lsp-installer
 :nvim-lsp-installer_link: link:{nvim-lsp-installer_url}[nvim-lsp-installer^]
