@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v0.3.0
-:revdate: 2021-12-05T17:56:06+0900
-:revremark: LSP serverのsetup方法の追加
+:revnumber: v0.4.0
+:revdate: 2021-12-05T17:57:00+0900
+:revremark: `LspInstallInfo` のiconsとkeymap config方法の追加をする
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -157,6 +157,40 @@ if not requested_server:is_installed() then
   -- serverがinstallされていない場合、installします。
   requested_server:install()
 end
+----
+
+== `LspInstallInfo` のiconsとkeymap config
+
+installしているserverや、installできるserverを表示する
+`LspInstallInfo` のUIのconfig方法です。
+
+.`LspInstallInfo` のUIのconfig(値はdefaultの値)
+[source, lua]
+----
+local lsp_installer = require("nvim-lsp-installer")
+
+lsp_installer.settings({
+  ui = {
+    icons = {
+      -- installされたserverのicon
+      server_installed = '◍',
+      -- install待ちserverのicon
+      server_pending = '◍',
+      -- installしていないserverのicon
+      server_uninstalled = '◍',
+    },
+    keymaps = {
+      -- cursorのserverの詳細を表示するkey
+      toggle_server_expand = '<CR>',
+      -- cursorのserverをinstallするkey
+      install_server = 'i',
+      -- cursorのserverをupdateするkey
+      update_server = 'u',
+      -- cursorのserverをuninstallするkey
+      uninstall_server = 'x',
+    },
+  },
+})
 ----
 
 
