@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v0.1.0
-:revdate: 2021-12-05T17:39:16+0900
-:revremark: 前文の追加
+:revnumber: v0.2.0
+:revdate: 2021-12-05T17:41:47+0900
+:revremark: commandの説明の追加
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -38,6 +38,42 @@ Language Server Protocol(LSP)のserverをinstall,uninstallするNeovim用のplug
 
 link:{nvim-lsp-installer_url}#available-lsps[
 対応しているserverを知りたい人は、公式のREADMEを見てください。^]
+
+== Commands
+
+.管理
+LspInstallInfo::
+  installしているserverや、installできるserverをfloating windowで表示します。
+  serverのinstall, uninstall, updateもできます。
+  `?` keyを押せば、keymapのhelpを表示します。
+LspInstall [--sync] <server_name>::
+  serverを(re)installします。
+  serverは `<server_name>` で選択します。
+  `--sync` を引数に渡したときはblocking方式でinstallし、
+  installが終わるまで何もできません。
+  `--sync` はscriptだけで使用するのを推奨しています。READMEに記載がありました。
+LspUninstall [--sync] <server_name>::
+  serverをuninstallします。
+  他は `LspInstall` と同じです。
+LspUninstall [--no-confirm]::
+  Installしているserverを全てuninstallします。
+  `--no-confirm` を引数に渡すと `(Y)es/(N)o` の確認をしません。
+
+defaultのserverのinstall先は `stdpath("data")` になります。
+`LspInstallInfo` でserverのinstall先を見られます。
+
+[IMPORTANT]
+====
+installしただけでは、serverは動きません。
+`setup()` functionを使用して、LSPのsetupをする必要があります。
+====
+
+.Log & Info
+LspInstallLog::
+  log fileを開きます。
+  tabを生成し、そこに開きます。
+LspPrintInstalled::
+  installした全てのserverを表示します。
 
 
 '''
