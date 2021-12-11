@@ -1,0 +1,188 @@
+= Neovim起動時の `runtimepath` の比較
+:author: hituzi no sippo
+:revnumber: v1.0.0
+:revdate: 2021-12-12T07:58:49+0900
+:revremark: First Edition
+:description: Neovim起動時の `runtimepath` の比較
+:toc: preamble
+// The meta attributes that are not built into Asciidoc.
+// The `copyright` attribute is an attribute built into Asciidoctor.
+:copyright: copyright (c) 2021 {author}
+:creation_date: 2021-12-09T06:27:13+0900
+:first_publication_date: 2021-12-12T07:58:49+0900
+:tags: Comparison, neovim, runtimepath
+
+[NOTE]
+====
+Neovimで動作を確認しました。
+Vimはわかりません。Vimで動作確認はしていません。
+====
+
+:commit: 0a3826646f9348f9a82b9c8a79efc16dbaf3a21d
+[horizontal]
+.Version
+NVIM:: link:https://github.com/neovim/neovim/commit/{commit}[v0.7.0-dev+678-g0a3826646^]
+Build type:: RelWithDebInfo
+LuaJIT:: 2.1.0-beta3
+
+
+Neovim起動時の `runtimepath` を比較し、引数により違いがあることがわかりました。
+
+== 比較したコマンド(`nvim` 部分は省略)
+
+[NOTE]
+====
+link先のhelpと記載している内容が、違う可能性があります。
+これはlink先のhelpが最新のhelpで、
+これを記載した当時から変更されている可能性があるからです。
+====
+
+:neovim_strting_help_url: https://neovim.io/doc/user/starting.html
+:args_u_url: {neovim_strting_help_url}#-u
+:args_noplugin_url: {neovim_strting_help_url}#--noplugin
+:args_clean_url: {neovim_strting_help_url}#--clean
+[horizontal]
+引数なし:: ただの `nvim`
+link:{args_u_url}[-u NORC^]::
+  初期化時にvimrc filesはloadしないが、pluginsをloadする
+link:{args_noplugin_url}[--noplugin^]::
+  初期化時にvimrc filesはloadするが、pluginsをloadしない
+link:{args_u_url}[-u NONE^]::
+  初期化時にvimrc files,plugins両方ともloadしない
+link:{args_clean_url}[--clean^]::
+  Neovimを新規にinstallした直後を模倣した環境
+
+.`o` = `runtimepath` に含まれている, `x` = `runtimepath` に含まれていない
+[cols=4*a, options='headers']
+|===
+|引数
+|`~/.../pack/\*/start/*(/after)`
+|`/usr/local/.../pack/dist/opt/matchit`
+|`~`
+
+|引数なし     .2+.^|o .2+.^|o .2+.^|o
+|`-u NORC`
+|`--noplugin` .2+.^|x .2+.^|x .2+.^|o
+|`-u NONE`
+|`--clean`    |x |o |x
+|===
+
+== 引数なしと比較して `runtimepath` に含まれていない path
+
+`-u NORC`::
+  引数なしとの違いはなし
+`--noplugin`::
+  * ~/.local/share/nvim/site/pack/\*/start/*
+  * ~/.local/share/nvim/site/pack/\*/start/*/after
+  * /usr/local/share/nvim/runtime/pack/dist/opt/matchit
+`-u NONE`::
+  `--noplugin` と同じ
+`--clean`::
+  * ~/.config/nvim
+  * ~/.local/share/nvim/site
+  * ~/.local/share/nvim/site/pack/\*/start/*
+  * ~/.local/share/nvim/site/pack/\*/start/*/after
+  * ~/.local/share/nvim/site/after
+
+== 出力結果
+
+* `stdpath('config')`(`~/.config/nvim`) directoryはない状態
+* `lua vim.tbl_map(function(path) print(path) end, vim.opt.runtimepath:get())`
+  で出力
+
+.引数なにもなし(`nvim`)
+.`nvim`
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+~/.local/share/nvim/site/pack/*/start/*
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+~/.local/share/nvim/site/pack/*/start/*/after
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+.初期化時にvimrc filesはloadしないが、pluginsをloadする(`nvim -u NORC`)
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+~/.local/share/nvim/site/pack/*/start/*
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+~/.local/share/nvim/site/pack/*/start/*/after
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+.初期化時にvimrc filesはloadするが、pluginsをloadしない(`nvim --noplugin`)
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/lib/nvim
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+
+.初期化時にvimrc files,plugins両方ともloadしない(`nvim -u NONE`)
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/lib/nvim
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+.Neovimを新規にinstallした直後を模倣した環境(`nvim --clean`)
+....
+/etc/xdg/nvim
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+/etc/xdg/nvim/after
+....
+
+== References
+
+=== External
+
+* Starting.txt - nvim documentation
+** link:{args_u_url}[-u^]
+** link:{args_noplugin_url}[--noplugin]
+** link:{args_clean_url}[--clean]
