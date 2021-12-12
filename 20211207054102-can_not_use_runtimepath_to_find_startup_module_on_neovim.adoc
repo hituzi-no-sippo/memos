@@ -1,0 +1,133 @@
+= Neovimで `runtimepath` を使用して `pack/*/start` に指定moduleがあるか判定できない
+:author: hituzi no sippo
+:revnumber: v1.0.0
+:revdate: 2021-12-12T09:16:41+0900
+:revremark: First Edition
+:description: Neovimで `runtimepath` で `pack/*/start` に \
+              指定moduleがあるか判定できない理由を説明しています。
+// The meta attributes that are not built into Asciidoc.
+// The `copyright` attribute is an attribute built into Asciidoctor.
+:copyright: copyright (c) 2021 {author}
+:creation_date: 2021-12-07T05:41:02+0900
+:first_publication_date: 2021-12-12T09:16:41+0900
+:tags: neovim, runtimepath
+
+[NOTE]
+====
+Neovimで動作を確認しました。
+Vimはわかりません。Vimで動作確認はしていません。
+====
+
+:commit: 0a3826646f9348f9a82b9c8a79efc16dbaf3a21d
+[horizontal]
+.Version
+NVIM:: link:https://github.com/neovim/neovim/commit/{commit}[v0.7.0-dev+678-g0a3826646^]
+Build type:: RelWithDebInfo
+LuaJIT:: 2.1.0-beta3
+
+:pack_path: ~/.local/share/nvim/site/pack
+:start_path: {pack_path}/*/start
+:start_path_in_runtimepath: {start_path}/*
+`lua vim.o.runtimepath:find(<start内のmodule_name>)` で、
+`{start_path}` 内に指定moduleがあるか判定できません。
+
+`{start_path}` 内にあるmoduleは
+`runtimepath` で `{start_path_in_runtimepath}` の1つとして扱われるからです。
+
+:startup_module: <startにあるmodule directory name>
+:module_path_in_runtime_path: {pack_path}/<plugin_manager_name>/start/{startup_module}
+
+.`packadd {startup_module}` をすると `runtimepath` へ追加されるか
+[cols=3*a, optios='headers']
+|===
+|`packadd` するとき
+|`runtimepath` へ追加されるか
+|`packadd` 時に `{start_path}` が `runtimepath` にあるか
+|Neovim起動後                   2+|Yes
+|`init.<vim\|lua>`              2+|No
+|`after/plugin/\***.<vim\|lua>` 2+|Yes
+|===
+
+== Neovim起動時の `runtimepath` の出力結果
+
+* `stdpath('config')`(`~/.config/nvim`) directoryはない状態
+* `lua vim.tbl_map(function(path) print(path) end, vim.opt.runtimepath:get())`
+  で出力
+
+.`init.vim` なし
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+~/.local/share/nvim/site/pack/*/start/*
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+~/.local/share/nvim/site/pack/*/start/*/after
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+.`init.vim` を作成して、 `packadd packer.nvim` を追加したとき
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+~/.local/share/nvim/site/pack/*/start/*
+# これが追加される
+~/.local/share/nvim/site/pack/packer/start/packer.nvim
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+~/.local/share/nvim/site/pack/*/start/*/after
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+`~/.local/share/nvim/site/pack/packer/start/packer.nvim` が追加される。
+
+.`after/plugin/packadd.vim` を作成して、 `packadd packer.nvim` を追加したとき
+[literal]
+....
+~/.config/nvim
+/etc/xdg/nvim
+~/.local/share/nvim/site
+~/.local/share/nvim/site/pack/*/start/*
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/local/share/nvim/runtime
+/usr/local/share/nvim/runtime/pack/dist/opt/matchit
+/usr/local/lib/nvim
+~/.local/share/nvim/site/pack/*/start/*/after
+/usr/share/nvim/site/after
+/usr/local/share/nvim/site/after
+~/.local/share/nvim/site/after
+/etc/xdg/nvim/after
+~/.config/nvim/after
+....
+
+`~/.local/share/nvim/site/pack/packer/start/packer.nvim` は追加されない。
+
+== References
+
+=== Internal
+
+* link:./20211209062713-comparison_of_runtimepath_when_starting_neovim[
+  Neovim起動時の `runtimepath` の比較^]
+
+=== External
+
+* link:https://neovim.io/doc/user/repeat.html#:packadd[
+  packadd - Nvim documentation^]
