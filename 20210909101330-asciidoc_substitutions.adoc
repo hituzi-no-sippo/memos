@@ -1,0 +1,73 @@
+= Asciidocの置換(Substitutions)属性
+:author: hituzi no sippo
+:revnumber: v1.0.0
+:revdate: 2021-12-12T14:43:49+0900
+:revremark: souce block内のURLをlinkにする方法を追加する
+:description: Asciidoc置換属性の説明
+:copyright: Copyright (c) 2021 {author}
+// The meta attributes that are not built into Asciidoc.
+// The `copyright` attribute is an attribute built into Asciidoctor.
+:copyright: copyright (c) 2021 {author}
+:creation_date: 2021-09-09T10:13:30+0900
+:first_publication_date: 2021-09-09T15:15:00+0900
+:tags: asciidoc, asciidoctor
+:asciidoctor_document_url: https://docs.asciidoctor.org/asciidoc/latest
+:asciidoctor_subs_document_url: {asciidoctor_document_url}/subs
+
+次に関する置換の情報を記載します。
+
+* 文章内の文字
+* markup
+* attributes
+* 置換処理をするmacro
+
+== souce block内のURLをlinkにする
+
+source、listingやliteral bloce内のURLをlinkにするには `macros` を使用します。
+
+link:{asciidoctor_subs_document_url}/apply-subs-to-blocks/#the-subs-attribute[
+`macros` があると、macro処理をします。^]
+macro処理内で、block内のURLは、URL macroになります。
+
+[CAUTION]
+====
+Asciidocでは使えません。Asciidoctorでは使えます。
+====
+
+.Code
+[source, Asciidoc]
+------
+[source, Lua, subs="macros"]
+----
+-- https://neovim.io/doc/user/lsp.html#lsp-api
+-- https://neovim.io/doc/user/lsp.html#lsp-api[LSP API^]
+-- https://neovim.io/doc/user/lsp.html#lsp-api[
+   Neovim LSP API^]
+vim.lsp.buf_request()
+----
+------
+
+.表示
+[source, Lua, subs="macros"]
+----
+-- https://neovim.io/doc/user/lsp.html#lsp-api
+-- https://neovim.io/doc/user/lsp.html#lsp-api[LSP API^]
+-- https://neovim.io/doc/user/lsp.html#lsp-api[
+   Neovim LSP API^]
+vim.lsp.buf_request()
+----
+
+== References
+
+=== External
+
+* link:{asciidoctor_subs_document_url}/substitutions/[
+  Substitutions: Asciidoctor Docs^]
+
+// tag::copyright[]
+
+'''
+
+Copyright (c) 2021 link:https://github.com/hituzi-no-sippo[{author}^]
+
+// end::copyright[]
