@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v1.2.1
-:revdate: 2021-12-14T06:15:02+0900
-:revremark: asciidoc attributeに変換できる箇所をattributeに変換した
+:revnumber: v1.3.0
+:revdate: 2021-12-14T06:15:12+0900
+:revremark: `LspInstallInfo` のUI内のhelpとUIを閉じるkeyが変更できない主旨の文を追加する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -274,6 +274,12 @@ lsp_installer.settings({
   },
 })
 ----
+
+[NOTE]
+====
+link:{nvim-lsp-installer_url}/blob/0fe8c254d90794f13860cbeac5e5987a081a8031/lua/nvim-lsp-installer/ui/status-win/init.lua#L9-L11[
+2021/12/14の時点では、helpとUIを閉じるkeyを変更できません。^]
+====
 
 == Install Config
 
