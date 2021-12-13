@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v1.2.0
-:revdate: 2021-12-14T05:49:50+0900
-:revremark: `LspInstallInfo` のUIの表示を追加する
+:revnumber: v1.2.1
+:revdate: 2021-12-14T06:15:02+0900
+:revremark: asciidoc attributeに変換できる箇所をattributeに変換した
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -205,7 +205,7 @@ local servers = lsp_installer.get_installed_servers()
 servers[1]:setup({})
 ----
 
-link:https://github.com/williamboman/nvim-lsp-installer/blob/8fab72f68391a2719b5ee7b399789d33e0a2d416/lua/nvim-lsp-installer.lua#L215-L223[
+link:{nvim-lsp-installer_url}/blob/8fab72f68391a2719b5ee7b399789d33e0a2d416/lua/nvim-lsp-installer.lua#L215-L223[
 `on_server_ready` のcode^]を読みましたが、
 何をもって準備完了としているのか分かりませんでした。
 ====
