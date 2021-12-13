@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v1.0.1
-:revdate: 2021-12-14T05:41:02+0900
-:revremark: 誤字の修正をする
+:revnumber: v1.0.2
+:revdate: 2021-12-14T05:46:15+0900
+:revremark: コメントの位置を理解しやすい位置に移動する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -154,8 +154,8 @@ requested_server:on_ready(function ()
   -- LSPのsetupをします。
   requested_server:setup(opts)
 end)
+-- serverがinstallされていない場合、installします。
 if not requested_server:is_installed() then
-  -- serverがinstallされていない場合、installします。
   requested_server:install()
 end
 ----
