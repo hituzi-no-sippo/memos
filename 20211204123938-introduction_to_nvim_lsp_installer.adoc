@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v1.1.0
-:revdate: 2021-12-14T05:48:01+0900
-:revremark: Versionを日付に変更する
+:revnumber: v1.2.0
+:revdate: 2021-12-14T05:49:50+0900
+:revremark: `LspInstallInfo` のUIの表示を追加する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -47,6 +47,87 @@ LspInstallInfo::
   installしているserverや、installできるserverをfloating windowで表示します。
   serverのinstall, uninstall, updateもできます。
   `?` keyを押せば、keymapのhelpを表示します。
++
+--
+[pass]
+++++
+<details><summary>LspInstallInfoで表示されるbuffer</summary>
+++++
+
+* ここだけnvim-lsp-installerのversionはlink:{nvim-lsp-installer_url}/commit/4d48eb45e76c64facdb1cea62f651a5e51ea33be[
+  2021/12/13^]です。
+* 中央揃えの部分は左に寄せています。
+* iconやkeymapはdefaultから変更しています。
+
+.serverの詳細情報表示&install/uninstall画面
+[literal]
+....
+nvim-lsp-installer
+  press ? for help
+https://github.com/williamboman/nvim-lsp-installer
+
+Installed servers (1)
+  i sumneko_lua
+    last updated this month
+    filetypes    lua
+    path         ~/.local/share/nvim/lsp_servers/sumneko_lua
+    homepage     https://github.com/sumneko/lua-language-server
+
+Available servers (74)
+  x cmake
+  x graphql
+  x dotls
+  # 長いので省略
+  ...
+  x zls
+....
+
+.help画面(`?` keyで表示される)
+[literal]
+....
+:help nvim-lsp-installer
+press ? for server list
+https://github.com/williamboman/nvim-lsp-installer
+
+Installer log: ~/.cache/nvim/lsp-installer.log
+
+Keyboard shortcuts
+Toggle help        ?
+Toggle server info i
+Update server      o
+Uninstall server   x
+Install server     a
+Close window       <Esc>
+Close window       q
+
+Problems installing/uninstalling servers
+Make sure you meet the minimum requirements to install servers. For debugging, refer to:
+  :help nvim-lsp-installer-debugging
+  :checkhealth nvim-lsp-installer
+
+Problems with server functionality
+Please refer to each language server's own homepage for further assistance.
+
+> Current settings :help nvim-lsp-installer-settings
+
+_______________________________________________________________________
+< Help sponsor Neovim development! https://github.com/sponsors/neovim >
+-----------------------------------------------------------------------
+       \    ,-^-.
+        \   !oYo!
+         \ /./=\.\______
+              ##        )\/\
+               ||-----w||
+               ||      ||
+
+        Cowth Vader (alleged Neovim user)
+....
+
+[pass]
+++++
+</details>
+++++
+--
 LspInstall [--sync] <server_name>::
   serverを(re)installします。
   serverは `<server_name>` で選択します。
