@@ -1,8 +1,8 @@
 = nvim-lsp-installerの紹介
 :author: hituzi no sippo
-:revnumber: v1.0.2
-:revdate: 2021-12-14T05:46:15+0900
-:revremark: コメントの位置を理解しやすい位置に移動する
+:revnumber: v1.1.0
+:revdate: 2021-12-14T05:48:01+0900
+:revremark: Versionを日付に変更する
 :description: Language Server Protocol(LSP)用のserverを \
               管理するNeovim用のpluignの紹介
 :toc: preamble
@@ -15,9 +15,9 @@
 :nvim-lsp-installer_url: https://github.com/williamboman/nvim-lsp-installer
 :nvim-lsp-installer_link: link:{nvim-lsp-installer_url}[nvim-lsp-installer^]
 
-:commit_id: 8fab72f68391a2719b5ee7b399789d33e0a2d416
 .Version
-link:{nvim-lsp-installer_url}/commit/{commit_id}[{commit_id}^]
+link:{nvim-lsp-installer_url}/commit/8fab72f68391a2719b5ee7b399789d33e0a2d416[
+2021/12/5^]
 
 .{nvim-lsp-installer_link}とは
 Language Server Protocol(LSP)のserverをinstall,uninstallするNeovim用のpluginです。
