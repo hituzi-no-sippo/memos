@@ -1,0 +1,131 @@
+= AsciiDoc言語の仕様
+:author: hituzi no sippo
+:revnumber: v1.0.0
+:revdate: 2022-01-19T02:02:02+0900
+:revremark: First Edition
+:description: AsciiDoc言語の仕様の説明
+:copyright: Copyright (c) 2022 {author}
+:toc: preamble
+:creation_date: 2022-01-15T08:27:09+0900
+:first_publication_date: 2022-01-18T19:44:18+0900
+:tags: specification, asciidoc, asciidoctor
+
+:asciidoctor_org_url: https://github.com/asciidoctor
+:asciidoc_lang_doc_repository_url: {asciidoctor_org_url}/asciidoc-docs
+:asciidoc_lang_doc_repository_link: link:{asciidoc_lang_doc_repository_url}[AsciiDoc Language Documentation^]
+:asciidoc_lang_repository_url: https://gitlab.eclipse.org/eclipse/asciidoc-lang/asciidoc-lang
+:asciidoc_lang_repository_link: link:{asciidoc_lang_repository_url}[AsciiDoc Language Project^]
+:asciidoc_py_url: https://github.com/asciidoc-py/asciidoc-py
+:asciidoc_py_link: link:{asciidoc_py_url}[AsciiDoc.py^]
+:asciidoc_py_loadmap_url: {asciidoc_py_url}/issues/173
+
+.これで伝えたいこと
+* AsciiDoc言語の仕様書は{asciidoc_lang_doc_repository_link}みたい
+* {asciidoc_lang_repository_link}は更新していない
+* {asciidoc_py_link}も、link:{asciidoc_py_loadmap_url}[
+  AsciiDoc言語の仕様に合わせようとしている^]
+
+:asciidoctor_docs_url: https://docs.asciidoctor.org
+:asciidoc_docs_url: {asciidoctor_docs_url}/asciidoc/latest
+== AsciiDoc言語とは
+
+:about_asciidoc_url: {asciidoc_docs_url}/#about-asciidoc
+link:{about_asciidoc_url}[
+AsciiDoc言語^]はMarkup言語です。
+
+類似のものとしては、MarkdownやreStructuredTextがあります。
+表作成やfileの全体・1部の取り込み(`include:<file_path>[]`)ができます。
+
+:compare_asciiDoc_to_markdown_url: {asciidoc_docs_url}/asciidoc-vs-markdown/
+link:{compare_asciiDoc_to_markdown_url}[Markdownとの比較^]
+
+== {asciidoc_lang_repository_link}は更新していない
+
+:asciidoc_lang_url: https://projects.eclipse.org/projects/asciidoc.asciidoc-lang
+link:{asciidoc_lang_url}[
+AsciiDoc言語はEclipse FoundationのEclipse open source projectです。^]
+Eclipse Foundationには、
+{asciidoc_lang_repository_link}がAsciiDoc言語の仕様書のrepositoryと記載しています。
+しかし、2022年1月現在、{asciidoc_lang_repository_link}は5月の更新が最後です。
+
+== {asciidoc_lang_doc_repository_link}が最新の仕様書みたい
+
+最新のAsciiDoc言語の仕様書は{asciidoc_lang_doc_repository_link}のようです。
+
+=== "AsciiDoc Language Documentation" が "AsciiDoc Language Project" を継承していると考えている理由
+
+* CHANGELOGを比較して、 "Published Q1 2021" 以前の部分が同じ
++
+--
+.CHANGELOG
+* link:{asciidoc_lang_doc_repository_url}/blob/77d8b5c0291e65b296d1dd05290c97af6333db14/docs/CHANGELOG.adoc[
+  AsciiDoc Language Documentation^]
+* link:{asciidoc_lang_repository_url}/-/blob/ac671de05ad7417b8910e5b37abcbef34247d5d3/docs/CHANGELOG.adoc[
+  AsciiDoc Language Project^]
+--
+
+* "Asciidoctor Language Documentation" のcommitを "AsciiDoc Language Project" で使用している
++
+--
+.`update section titles; replace xref to markdown compatibility (PR #19)` のcommit
+** link:{asciidoc_lang_doc_repository_url}/commit/6cacc7e5ec8a9514cc78d7fb0513d0e359db0497[
+   AsciiDoc Language Documentation^]
+** link:{asciidoc_lang_repository_url}/-/commit/6cacc7e5ec8a9514cc78d7fb0513d0e359db0497[
+   AsciiDoc Language Project^]
+--
+
+=== AsciidoctorとAsciiDocの仕様
+
+:asciidoctor_documentation_url: {asciidoctor_docs_url}/asciidoctor/latest
+:what_is_asciidoctor_url: {asciidoctor_documentation_url}/#what-is-asciidoctor
+.Asciidoctorとは
+link:{what_is_asciidoctor_url}[
+AsciiDoc言語をどのように解釈するかの参考実装です。^]
+
+:about_asciidoc_documentation_url: {asciidoc_docs_url}/#about-this-documentation
+link:{about_asciidoc_documentation_url}[
+Asciidoctorの実装により、AsciiDocの言語仕様を定義します。
+AsciiDoc言語の最初のVersion仕様が確定するまで、これは続きます。^]
+そのため、AsciiDoc言語の全ての仕様要件をAsciidotcor実装しています。
+
+link:{asciidoc_lang_url}[
+AsciiDoc言語project^]がAsciiDoc言語のdocumentを公開するまで、
+AsciiDoc言語の仕様はAsciidoctorのdocumentになります。
+
+
+== AsciiDoc.pyも{asciidoc_lang_doc_repository_link}に合わせようとしている
+
+.AsciiDocとは
+AsciiDocの最初のプロジェクトです。
+"AsciiDoc.pyの仕様" = "AsciiDoc言語の仕様" と私は前まで考えていました。
+
+link:{asciidoc_py_loadmap_url}[
+AsciiDoc.pyもv11.0でAsciiDoc言語の仕様になるようです。^]
+
+[NOTE]
+."AsciiDoc", "AsciiDoc.py" と "Asciidoctor" の関係
+====
+:asciidoc_community_repository_url: {asciidoctor_org_url}/asciidoctor-community-docs
+:asciidoc_history_url: {asciidoc_community_repository_url}/blob/main/about/modules/ROOT/pages/history.adoc
+link:{asciidoc_history_url}[
+asciidoctor-community-docsのhistory^]を読めばわかります。
+GitHubでAsciiDocを使うために、Asciidotcorは作られたようです。
+====
+
+== References
+
+=== External
+
+* link:{asciidoc_lang_url}[AsciiDoc Language^]
+** {asciidoc_lang_doc_repository_link}
+** {asciidoc_lang_repository_link}
+** https://asciidoctor.org/news/2019/01/07/asciidoc-spec-proposal/[
+   Starting the AsciiDoc Specification Journey^]
+** link:{asciidoc_docs_url}[AsciiDoc Language Documentation :: Asciidoctor Docs^]
+** link:{compare_asciiDoc_to_markdown_url}[Compare AsciiDoc to Markdown :: Asciidoctor Docs^]
+
+* Asciidoctor
+** link:{asciidoctor_documentation_url}[Asciidoctor Documentation^]
+
+* {asciidoc_py_link}
+** link:{asciidoc_py_loadmap_url}[AsciiDoc.py Roadmap]
