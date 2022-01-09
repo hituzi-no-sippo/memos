@@ -1,0 +1,237 @@
+= AsciidocとAsciidoctorのPassthrough blockの違い
+:author: hituzi no sippo
+:revnumber: v1.0.0
+:revdate: 2022-01-09T15:56:59+0900
+:revremark: First Edition
+:description: AsciidocとAsciidoctorのpassthrough blockの違いの説明
+:toc2:
+// The meta attributes that are not built into Asciidoc.
+// The `copyright` attribute is an attribute built into Asciidoctor.
+:copyright: copyright (c) 2022 {author}
+:creation_date: 2022-01-02T09:35:11+0900
+:tags: difference, asciidoc, asciidoctor, passthrough, block
+:asciidoc_user_guide_url: https://asciidoc-py.github.io/userguide.html
+:asciidoctor_document_url: https://docs.asciidoctor.org/asciidoc/latest
+
+.Version
+[horizontal]
+Asciidoc:: 10.1.1
+Asciidoctor.js:: 2.2.5 (Asciidoctor 2.0.16)
+
+.AsciidocとAsciidoctorの違い
+Asciidocはmacroとattributeを置換するが、Asciidoctorは置換しません。
+
+== Passthrough Blocks
+:predefined_delimited_blocks_link_url: {asciidoc_user_guide_url}#_predefined_delimited_blocks
+
+Passthrough Blockの内容はそのまま出力します。
+HTML要素を記載すれば、HTML要素をそのまま出力します。
+
+link:{predefined_delimited_blocks_link_url}[
+defaultでpassthrough blockは、attributeとmacroを置換します。]
+passthrough blockの内容は、backendに依存するときが多いです。
+blockの開始地点に `[subs='<style_name>']` で置換する対象を変更できます。
+
+.使用できるstyles
+[horizontal]
+none::
+  何も置換しません。 `[pass]` は `[subs='none']` と同じです。
+quotes::
+   `*` や `_` などを置換して、文字を強調できます。
+   attributeやmacroは置換しません。
+link:{asciidoc_user_guide_url}#X78[asciimath, latexmath]::
+  defaultでは何も置換しません。ただ、数式として表示されます。
+  backendに依存します。
+
+== Asciidocでの動作確認
+
+.動作確認code
+----
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+
+// ここに `[pass]` を追加したりして、 `{test}` の変化を確認する
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+結果について一言
+
+++++
+</details>
+++++
+----
+
+=== `[subs=<style_name>]` がない場合
+
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+attributeとmacroが有効なので、 `{test}` を置換し、linkとして表示します。
+`*` は置換しないので、linkは強調しません。
+
+++++
+</details>
+++++
+
+=== `[subs='none']` の場合
+
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+[subs='none']
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+何も置換されないので、 `{test}` を置換せず、 `{test}` のままです。
+`*` もそのままです。
+
+++++
+</details>
+++++
+
+=== `[pass]` の場合
+
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+[pass]
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+`[subs='none']` と同じ意味なので、何も置換しません。
+何も置換しないので、 `{test}` を置換せず、 `{test}` のままです。
+
+++++
+</details>
+++++
+
+=== `[subs='quotes']` の場合
+
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+[subs='quotes']
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+attributeとmacroは置換しないので、`{test}` を置換せず、 `{test}` のままです。
+しかし、 `*` は置換するので、 `{test}` を強調して表示します。
+
+++++
+</details>
+++++
+
+== Asciidoctorでの動作
+
+`[subs='<style_name>']` がない場合、Asciidoctorはmacroとattributeを置換しません。
+
+[subs='none']
+++++
+<div class="exampleblock">
+    <div class="title">Example 1. <code>[subs=<style_name>]</code> がない場合</div>
+    <div class="content">
+        <details open="">
+            <summary>*{test}*</summary>
+            <div class="paragraph">
+                 <p>Asciidoctorはmacroとattributeを置換しません。</p>
+            </div>
+        </details>
+    </div>
+</div>
+++++
+
+GitHub上でのpreview表示はこれと同じ結果になります。
+
+:asciidoctor_subs_url: {asciidoctor_document_url}/subs
+.Block別defaultの置換設定
+[NOTE]
+====
+* link:{predefined_delimited_blocks_link_url}[Asciidoc]
+* link:{asciidoctor_subs_url}/#substitution-groups[Asciidoctor]
+====
+
+== AsciidocとAsciidoctor両方でattributeとmacroを置換する方法
+
+同じ記載でAsciidocとAsciidoctor両方でattributeとmacroを置換する方法を、
+発見できませんでした。
+
+Asciidoctorで `[subs='+attributes, macros+']` をすれば、
+属性とマクロを置換できます。
+しかし、これをAsciidocでは使用できません。
+次の2つの記法はAsciidocでは使用できません。
+
+:asciidoctor_apply_subs_to_blocks_url: {asciidoctor_subs_url}/apply-subs-to-blocks
+.Asciidocで使用できない記法(Asciidoctor拡張記法)
+* link:{asciidoctor_apply_subs_to_blocks_url}/#incremental[
+  `<style_name>` の前後に `+` をつける(既存の置換に `style_name` を追加する)]
+* link:{asciidoctor_apply_subs_to_blocks_url}/#the-subs-attribute[
+  `,` を使用して、2つの `style_name` を設定する]
+
+=== 動作確認
+
+==== `[subs='+attributes, macros+']` の場合
+
+Asciidoc::
+  使用できない。errorになる。 +
+  `<style_name>` の前後に `+` をつけるのはAsciidocでは使用できない記法です。
+Asciidoctor::
+  attributeとmacroを置換する
+
+// Asciidocではerrorになるので、コメントにしておく
+// ====
+// :test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+// [subs='+attributes, macros+']
+// ++++
+// <details open><summary>*{test}*</summary>
+// ++++
+//
+// Asciidoc::
+//   使用できない。errorになる。 +
+//   `<style_name>` の前後に `+` をつけるのはAsciidocでは使用できない記法です。
+// Asciidoctor::
+//   attributeとmacroを置換する
+//
+// ++++
+// </details>
+// ++++
+// ====
+
+==== `[presubs='attributes', postsubs='macros']` の場合
+
+:test: link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks]
+[presubs='attributes', postsubs='macros']
+++++
+<details open><summary>*{test}*</summary>
+++++
+
+Asciidoc::
+  attributeとmacroを置換する
+Asciidoctor::
+  attributeとmacroを置換しない +
+  Asciidoctorには `presubs` と `postsubs` はないからです。
+
+++++
+</details>
+++++
+
+.`presubs` と `postsubs`
+[NOTE]
+====
+* `presubs` を最初に置換する +
+  Asciidoctorの `+<style_name>` と多分同じ処理
+* `postsubs` が指定されている場合、 `presubs` の後に置換する +
+  Asciidoctorの `<style_name>+` と多分同じ処理
+* `subs` は `presubs` のalias
+====
+
+
+== References
+
+=== External
+
+* link:{asciidoc_user_guide_url}#X76[16.6. Passthrough Blocks - Asciidoc User Guide]
+* Asciidoctor Docs
+** link:{asciidoctor_document_url}/pass/pass-block/[Passthrough Blocks]
+** link:{asciidoctor_document_url}/pass/pass-macro/[Inline Passthroughs]
+** link:{asciidoctor_document_url}[Substitutions]
+** link:{asciidoctor_apply_subs_to_blocks_url}[
+   Customize the Substitutions Applied to Blocks]
