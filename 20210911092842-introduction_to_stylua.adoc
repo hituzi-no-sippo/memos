@@ -1,8 +1,8 @@
 = Introduction to StyLua
 :author: hituzi no sippo
-:revnumber: v1.0.1
-:revdate: 2022-01-19T12:13:35+0900
-:revremark: project rootにconfig fileを置くのを非推奨という説明を修正する
+:revnumber: v1.0.2
+:revdate: 2022-01-19T12:21:15+0900
+:revremark: `--search-parent-directories` での検索対象をconfig fileと明記する
 :doctype: article
 :description: Lua formatterのStyLuaの紹介
 :toc: preamble
@@ -101,7 +101,7 @@ link:{stylua_url}#finding-the-configuration[
 ====
 READMEで使用するのを勧めていませんが、
 StyLua CLIに `--search-parent-directories` を追加すれば、
-root pathまで検索できます。
+root pathまでconfig fileを検索できます。
 ====
 
 === 設定値
