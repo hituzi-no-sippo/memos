@@ -6,8 +6,6 @@
 :doctype: article
 :description: Lua formatterのStyLuaの紹介
 :toc: preamble
-// The meta attributes that are not built into Asciidoc.
-// The `copyright` attribute is an attribute built into Asciidoctor.
 :copyright: Copyright (c) 2021 {author}
 :creation_date: 2021-09-11T09:28:42+0900
 :first_publication_date: 2021-09-11T21:18:50+0900
