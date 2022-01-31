@@ -1,8 +1,8 @@
 = Introduction to StyLua
 :author: hituzi no sippo
-:revnumber: v1.0.3
-:revdate: 2022-01-31T11:09:22+0900
-:revremark: commandの使い方をわかりやすくする
+:revnumber: v1.1.0
+:revdate: 2022-01-31T11:18:53+0900
+:revremark: luauが有効のときは検索対象が `**/*.luau` になることを追加します
 :doctype: article
 :description: Lua formatterのStyLuaの紹介
 :toc: preamble
@@ -41,6 +41,7 @@ stylua --glob <pattern> -- <directory_path>
 `stylua ./` = `stylua --glob '**/*.lua' -- ./` です。
 globを指定せず、 `<path>` がdirectoryのときは、
 globの `**/*.lua` に一致するfileをformatします。
+luauが有効のときは `**/*.luau` に一致するfileをformatします。
 ====
 
 .formatする部分を表示し、formatはしない
