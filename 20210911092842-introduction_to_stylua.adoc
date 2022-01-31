@@ -1,8 +1,8 @@
 = Introduction to StyLua
 :author: hituzi no sippo
-:revnumber: v1.0.2
-:revdate: 2022-01-19T12:21:15+0900
-:revremark: `--search-parent-directories` での検索対象をconfig fileと明記する
+:revnumber: v1.0.3
+:revdate: 2022-01-31T11:09:22+0900
+:revremark: commandの使い方をわかりやすくする
 :doctype: article
 :description: Lua formatterのStyLuaの紹介
 :toc: preamble
@@ -30,14 +30,18 @@ full-moon^]を使用しています。
 .formatする
 [listing]
 ....
-# `--glob '**/*'` のように `'` で囲む必要があります。
 stylua <path>
 
-# `stylua ./` = `stylua --glob '**/*.lua' -- ./` です。
-# globを指定せず、 `<path>` がdirectoryのときは、
-# globの `**/*.lua` にmatchするfileをformatします。
+# `--glob '**/*'` のように `'` で囲む必要があります。
 stylua --glob <pattern> -- <directory_path>
 ....
+
+[NOTE]
+====
+`stylua ./` = `stylua --glob '**/*.lua' -- ./` です。
+globを指定せず、 `<path>` がdirectoryのときは、
+globの `**/*.lua` に一致するfileをformatします。
+====
 
 .formatする部分を表示し、formatはしない
 [listing]
