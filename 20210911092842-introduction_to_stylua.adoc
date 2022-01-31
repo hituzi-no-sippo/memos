@@ -1,8 +1,8 @@
 = Introduction to StyLua
 :author: hituzi no sippo
-:revnumber: v1.1.0
-:revdate: 2022-01-31T11:18:53+0900
-:revremark: luauが有効のときは検索対象が `**/*.luau` になることを追加します
+:revnumber: v1.2.0
+:revdate: 2022-01-31T11:53:34+0900
+:revremark: `no_call_parentheses` optionの説明を追加する
 :doctype: article
 :description: Lua formatterのStyLuaの紹介
 :toc: preamble
@@ -12,6 +12,17 @@
 :tags: introduction, lua, formatter
 :github_url: https://github.com
 :stylua_url: {github_url}/JohnnyMorganz/StyLua
+
+.Version
+link:{stylua_url}/commit/5ea08f1e90532ee95f19c0132b300967d7d8433c[
+2022/01/31^]
+
+.記載している内容とリンク先の内容が違うときがあります。
+[CAUTION]
+====
+記載するStyLuaのリンクは最新versionです。
+最新versionでは変更されて、ここで記載している内容と違うときがあります。
+====
 
 link:{stylua_url}[StyLua^]はcode formatterです。
 
@@ -137,11 +148,19 @@ root pathまでconfig fileを検索できます。
  反転しない `Force\***` があります。
 |AutoPreferDouble
 
-|no_call_parentheses
-|1つのstring、1つのtableだけを渡す関数の引数を囲む `()` を、
- 省略するか(`setup {}` or `setup({})`)を決めます。
- defaultは省略しません。(`setup({})`)
-|false
+|call_parentheses
+|1つの文字列(`print('hello')`)、
+ 1つのtable(`print({})`)だけを渡す関数の引数を囲む `()` を、
+ 省略するか(`print {}` or `print({})`)を決めます。
+ default(`Always`)は省略しません。(`print({})`)
+ 省略したい場合は `None` を設定してください。
+ 文字列のときだけ省略したい場合は `NoSingleString` 、
+ tableのときだけ省略したい場合は `NoSingleTable` を設定してください。 +
+ 括弧を残すことがあります。これは構文が曖昧になるからです。
+ 例えば、次のcodeは文字列ではなく、
+ 呼び出し結果のインデックスを作成するため `()` を省略しません。
+ `foo "bar".setup` -> `foo("bar").setup`
+|Always
 |===
 
 .defaultのstylua.toml
@@ -152,7 +171,7 @@ line_endings = "Unix"
 indent_type = "Tabs"
 indent_width = 4
 quote_style = "AutoPreferDouble"
-no_call_parentheses = false
+call_parentheses = "Always"
 ----
 
 === 無視するfile
