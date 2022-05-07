@@ -122,7 +122,7 @@ directoryに `$` が含まれるasciidoc fileではHTMLはrenderされます。
 
 . 管理者権限で `cmd.exe` 起動する
 . symlinkを作成する +
-  `mklink <symlink_name> \file://wsl%24/Ubuntu-20.04/home/...` +
+  `mklink <symlink_name> \\wsl$\Ubuntu-20.04\home\...` +
   右クリックで作成できるshortcutでは駄目です。
 . symlink経由でasciidoc fileを開く +
   browserのaddressに `.../<symlink_name>/...` を入力します。
